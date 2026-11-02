@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% partialdef content inline %}
+<main class="container">
+  <div class="auth-container">
+    <h1 class="auth-title">Criar Conta</h1>
+    <p class="auth-subtitle">Registre-se no EventFlow para poder criar seus próprios eventos e se inscrever.</p>
+
+    <form method="POST" action="{% url 'register' %}" onsubmit="return validatePasswords()">
+      {% csrf_token %}
+      
+      <div class="form-group">
+        <label class="form-label" for="username">Nome de Usuário *</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          value="{{ username|default:'' }}"
+          class="form-input"
+          placeholder="Ex: sofia_regis"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="email">Endereço de E-mail *</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value="{{ email|default:'' }}"
+          class="form-input"
+          placeholder="Ex: sofia@ufsc.br"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="password">Senha *</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          class="form-input"
+          placeholder="Mínimo 6 caracteres"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="confirm_password">Confirmar Senha *</label>
+        <input
+          type="password"
+          id="confirm_password"
+          name="confirm_password"
+          class="form-input"
+          placeholder="Digite a senha novamente"
+          required
+        />
+      </div>
+
+      <div id="password-error" class="alert alert-danger" style="display: none; margin-bottom: 16px;">
+        ⚠️ As senhas não coincidem.
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 12px;">
+        Registrar Conta
+      </button>
+    </form>
+
+    <div style="margin-top: 24px; text-align: center; font-size: 14px;">
+      Já tem uma conta? <a href="{% url 'login' %}">Entrar na conta</a>
+    </div>
+  </div>
+</main>
+
+<script>
+  function validatePasswords() {
+    const password = document.getElementById("password").value;
+    const confirm = document.getElementById("confirm_password").value;
+    const errorDiv = document.getElementById("password-error");
+    
+    if (password !== confirm) {
+      errorDiv.style.display = "flex";
+      return false;
+    }
+    errorDiv.style.display = "none";
+    return true;
+  }
+</script>
+{% endpartialdef %}
+{% endblock %}

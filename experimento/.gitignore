@@ -1,0 +1,25 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Caches e Ambientes Virtuais
+.venv/
+venv/
+ENV/
+env/
+.pytest_cache/
+
+# Arquivos de log e ambiente
+*.log
+.env
+
+# Gráficos em alta resolução (300 DPI)
+# Para economizar espaço no Git, as imagens .png são ignoradas e podem ser geradas
+# instantaneamente a partir dos dados em 'resultados/' via: python run.py --skip-collect
+graficos_cold_start/*
+!graficos_cold_start/.gitkeep
+graficos_infinite_scroll/*
+!graficos_infinite_scroll/.gitkeep
+graficos_mutacao_estado/*
+!graficos_mutacao_estado/.gitkeep

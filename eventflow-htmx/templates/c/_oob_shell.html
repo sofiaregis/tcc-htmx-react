@@ -1,0 +1,8 @@
+{% if request.htmx %}
+  <div id="navbar" hx-swap-oob="outerHTML">
+    {% include "navbar.html" %}
+  </div>
+  <div id="messages" hx-swap-oob="outerHTML">
+    {% include "c/_messages.html" %}
+  </div>
+{% endif %}

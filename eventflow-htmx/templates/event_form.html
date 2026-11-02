@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+{% partialdef content inline %}
+<main class="container py-5" style="max-width: 700px;">
+  <h1 class="mb-4" style="font-size: 28px; font-weight: 800;">
+    {% if event %}✏️ Editar Evento{% else %}➕ Novo Evento{% endif %}
+  </h1>
+  <p class="text-muted" style="margin-bottom: 32px; margin-top: -16px;">
+    {% if event %}Edite as informações do evento selecionado.{% else %}Preencha o formulário abaixo para registrar um novo evento na plataforma.{% endif %}
+  </p>
+
+  {% if errors %}
+    <div class="alert alert-danger">
+      ⚠️ Houve um erro ao processar o formulário. Por favor, verifique os campos.
+      {% for error in errors %}
+        <div>{{ error }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <form method="POST" enctype="multipart/form-data" class="event-form" style="background: var(--surface); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow);">
+    {% csrf_token %}
+    
+    <div class="form-group">
+      <label class="form-label" for="id_title">Título do Evento *</label>
+      <input
+        type="text"
+        id="id_title"
+        name="title"
+        value="{{ event.title|default:'' }}"
+        class="form-input"
+        placeholder="Ex: Workshop Avançado de JavaScript"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="id_category">Categoria *</label>
+      <select
+        id="id_category"
+        name="category"
+        class="filter-select"
+        style="width: 100%;"
+        required
+      >
+        {% for key, label in categories.items %}
+          <option value="{{ key }}" {% if event.category == key or category == key %}selected{% endif %}>
+            {{ label }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="id_description">Descrição *</label>
+      <textarea
+        id="id_description"
+        name="description"
+        class="form-textarea"
+        rows="5"
+        placeholder="Diga aos participantes o que acontecerá no evento..."
+        required
+      >{{ event.description|default:'' }}</textarea>
+    </div>
+
+    <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div>
+        <label class="form-label" for="id_date">Data *</label>
+        <input
+          type="date"
+          id="id_date"
+          name="date"
+          value="{{ event.date|date:'Y-m-d'|default:'' }}"
+          class="form-input"
+          required
+        />
+      </div>
+      <div>
+        <label class="form-label" for="id_time">Horário *</label>
+        <input
+          type="time"
+          id="id_time"
+          name="time"
+          value="{{ event.time|time:'H:i'|default:'' }}"
+          class="form-input"
+          required
+        />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="id_location">Local *</label>
+      <input
+        type="text"
+        id="id_location"
+        name="location"
+        value="{{ event.location|default:'' }}"
+        class="form-input"
+        placeholder="Ex: Auditório B - UFSC ou Online"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="id_image">Imagem de Capa</label>
+      {% if event.image %}
+        <div style="margin-bottom: 12px;">
+          <img src="{{ event.image.url }}" alt="{{ event.title }}" style="max-width: 200px; border-radius: var(--radius-sm); border: 1px solid var(--border);" />
+        </div>
+      {% endif %}
+      <input
+        type="file"
+        id="id_image"
+        name="image"
+        accept="image/*"
+        class="form-input"
+        style="padding: 8px;"
+      />
+      <small class="text-muted" style="display: block; margin-top: 4px;">
+        Deixe vazio para manter a imagem atual ou usar a capa padrão.
+      </small>
+    </div>
+
+    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 16px;">
+      {% if event %}Salvar Evento{% else %}Publicar Evento{% endif %}
+    </button>
+  </form>
+</main>
+{% endpartialdef %}
+{% endblock %}

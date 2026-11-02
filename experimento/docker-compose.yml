@@ -1,0 +1,173 @@
+services:
+  # ---------------------------------------------------------------------------
+  # Backend HTMX (Django + Gunicorn) em PRODUÇÃO (DEBUG=False)
+  # ---------------------------------------------------------------------------
+  htmx-backend:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.htmx-backend.prod
+      additional_contexts:
+        source: ../eventflow-htmx
+    container_name: efp-htmx-back
+    cpus: '${SERVER_CPU_LIMIT:-2.0}'
+    mem_limit: '${SERVER_MEM_LIMIT:-2048M}'
+    environment:
+      - PYTHONUNBUFFERED=1
+      - BENCHMARK_MODE=1
+      - DJANGO_DEBUG=0
+      - DJANGO_ALLOWED_HOSTS=*,localhost,htmx-backend,htmx,htmx-frontend
+    command: >
+      sh -c "cd /app &&
+             python manage.py collectstatic --noinput &&
+             exec gunicorn backend.wsgi:application --bind 0.0.0.0:8000 --workers 2 --threads 2"
+    volumes:
+      - ../eventflow-htmx/db.sqlite3:/app/db.sqlite3
+      - ../eventflow-htmx/media:/app/media
+      - htmx-staticfiles:/app/staticfiles
+      - ./seed_timestamp.json:/app/seed_timestamp.json:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/', timeout=3)"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 8s
+    networks:
+      - eventflow-net
+
+  # ---------------------------------------------------------------------------
+  # Web Server HTMX (Nginx servindo /static/ e /media/ + proxy dinâmico)
+  # ---------------------------------------------------------------------------
+  htmx-frontend:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.htmx-frontend.prod
+    container_name: efp-htmx-front
+    cpus: '${SERVER_CPU_LIMIT:-2.0}'
+    mem_limit: '${SERVER_MEM_LIMIT:-2048M}'
+    ports:
+      - "8080:8080"
+    volumes:
+      - htmx-staticfiles:/data/static:ro
+      - ../eventflow-htmx/media:/data/media:ro
+    depends_on:
+      htmx-backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O-", "http://127.0.0.1:8080/"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 8s
+    networks:
+      eventflow-net:
+        aliases:
+          - htmx
+          - htmx-frontend
+
+  # ---------------------------------------------------------------------------
+  # Backend React (Django REST + Gunicorn) em PRODUÇÃO (DEBUG=False)
+  # ---------------------------------------------------------------------------
+  react-backend:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.react-backend.prod
+      additional_contexts:
+        source: ../eventflow-react/backend
+    container_name: efp-react-back
+    cpus: '${SERVER_CPU_LIMIT:-2.0}'
+    mem_limit: '${SERVER_MEM_LIMIT:-2048M}'
+    environment:
+      - PYTHONUNBUFFERED=1
+      - BENCHMARK_MODE=1
+      - DJANGO_DEBUG=0
+      - DJANGO_ALLOWED_HOSTS=*,localhost,react-backend,react-frontend
+    command: >
+      sh -c "cd /app &&
+             python manage.py collectstatic --noinput &&
+             exec gunicorn backend.wsgi:application --bind 0.0.0.0:8000 --workers 2 --threads 2"
+    volumes:
+      - ../eventflow-react/backend/db.sqlite3:/app/db.sqlite3
+      - ../eventflow-react/backend/media:/app/media
+      - ./seed_timestamp.json:/app/seed_timestamp.json:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/events/', timeout=3)"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 8s
+    networks:
+      - eventflow-net
+
+  # ---------------------------------------------------------------------------
+  # Frontend React (Nginx servindo dist/ de produção + proxy /api e /media)
+  # ---------------------------------------------------------------------------
+  react-frontend:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.react-frontend.prod
+      additional_contexts:
+        source: ../eventflow-react/frontend
+    container_name: efp-react-front
+    cpus: '${SERVER_CPU_LIMIT:-2.0}'
+    mem_limit: '${SERVER_MEM_LIMIT:-2048M}'
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./deploy/nginx-react.conf:/etc/nginx/conf.d/default.conf:ro
+      - ../eventflow-react/backend/media:/data/media:ro
+    depends_on:
+      react-backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O-", "http://127.0.0.1:5173/"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 8s
+    networks:
+      - eventflow-net
+
+  # ---------------------------------------------------------------------------
+  # Runner (Playwright): coleta, análise, gráficos e tabelas via CDP nativo
+  # ---------------------------------------------------------------------------
+  runner:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.runner
+    container_name: efp-runner
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    security_opt:
+      - apparmor=unconfined
+    environment:
+      - PYTHONUNBUFFERED=1
+      - RUNS=${RUNS:-30}
+      - SCROLL_BATCHES=${SCROLL_BATCHES:-50}
+      - MUTATIONS=${MUTATIONS:-20}
+      - EXPERIMENT=${EXPERIMENT:-all}
+      - TECH=${TECH:-all}
+      - PROFILES=${PROFILES:-all}
+      - SKIP_ANALYSIS=${SKIP_ANALYSIS:-0}
+      - HTMX_URL=http://htmx:8080
+      - REACT_URL=http://react-frontend:5173
+    shm_size: "2gb"
+    volumes:
+      - ./:/app
+      - ../eventflow-htmx:/app/eventflow-htmx:ro
+      - ../eventflow-react:/app/eventflow-react:ro
+    depends_on:
+      htmx-frontend:
+        condition: service_healthy
+      react-frontend:
+        condition: service_healthy
+    networks:
+      - eventflow-net
+
+volumes:
+  htmx-staticfiles:
+
+networks:
+  eventflow-net:
+    name: eventflow-net
+    driver: bridge

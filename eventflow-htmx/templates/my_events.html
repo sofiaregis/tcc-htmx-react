@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% partialdef content inline %}
+<main class="container py-5">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+    <div>
+      <h1 style="font-size: 28px; font-weight: 800;">💼 Painel de Eventos</h1>
+      <p class="text-muted">Gerencie as atividades, inscritos e informações dos seus eventos.</p>
+    </div>
+    <a href="{% url 'event-create' %}" class="btn btn-primary" style="text-decoration: none; display: inline-flex; align-items: center;">
+      + Criar Novo Evento
+    </a>
+  </div>
+
+  <!-- Seção de Métricas -->
+  <div class="dashboard-grid">
+    <div class="metric-card">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span class="metric-title">Eventos Organizados</span>
+        <span style="font-size: 20px;">📅</span>
+      </div>
+      <span class="metric-value">{{ total_events }}</span>
+    </div>
+    <div class="metric-card">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span class="metric-title">Total de Inscritos Geral</span>
+        <span style="font-size: 20px;">👥</span>
+      </div>
+      <span class="metric-value">{{ total_registrations }}</span>
+    </div>
+  </div>
+
+  <!-- Listagem em Tabela -->
+  <h2 class="section-title" style="font-size: 20px; margin-top: 40px;">
+    Meus Eventos Criados
+  </h2>
+  
+  {% if events %}
+    <div class="table-responsive">
+      <table class="custom-table">
+        <thead>
+          <tr>
+            <th>Evento</th>
+            <th>Data / Hora</th>
+            <th>Categoria</th>
+            <th>Inscritos</th>
+            <th style="text-align: right;">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for event in events %}
+            <tr id="event-row-{{ event.id }}">
+              <td>
+                <a href="{% url 'event-details' event.id %}" style="font-weight: 700; color: var(--text); text-decoration: none;">
+                  {{ event.title }}
+                </a>
+                <div class="text-muted" style="font-size: 12px; margin-top: 4px;">
+                  📍 {{ event.location }}
+                </div>
+              </td>
+              <td>
+                <div style="font-weight: 500;">
+                  {{ event.date|date:"d/m/Y" }}
+                </div>
+                <div class="text-muted" style="font-size: 12px;">
+                  {{ event.time|time:"H:i" }}h
+                </div>
+              </td>
+              <td>
+                <span class="badge badge-primary">
+                  {{ event.get_category_display }}
+                </span>
+              </td>
+              <td>
+                <span style="font-weight: 700; color: var(--primary);">
+                  {{ event.registrations_count }}
+                </span>
+              </td>
+              <td>
+                <div class="table-actions" style="justify-content: flex-end; display: flex; gap: 8px;">
+                  <a href="{% url 'event-registrations' event.id %}" class="btn btn-sm btn-secondary" style="text-decoration: none; display: inline-flex; align-items: center;">
+                    Inscritos
+                  </a>
+                  <a href="{% url 'event-edit' event.id %}" class="btn btn-sm btn-outline" style="text-decoration: none; display: inline-flex; align-items: center;">
+                    Editar
+                  </a>
+                  <button 
+                    hx-delete="{% url 'event-delete' event.id %}"
+                    hx-target="#event-row-{{ event.id }}"
+                    hx-swap="outerHTML"
+                    hx-confirm="⚠️ Tem certeza que deseja deletar este evento permanentemente?"
+                    class="btn btn-sm btn-danger"
+                  >
+                    Excluir
+                  </button>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="text-center" style="padding: 60px 0; border: 1px dashed var(--border); border-radius: var(--radius-lg); background: var(--surface);">
+      <p class="text-muted" style="font-size: 16px; margin-bottom: 16px;">
+        Você ainda não criou nenhum evento.
+      </p>
+      <a href="{% url 'event-create' %}" class="btn btn-primary" style="text-decoration: none; display: inline-flex; align-items: center;">
+        Criar Primeiro Evento
+      </a>
+    </div>
+  {% endif %}
+</main>
+{% endpartialdef %}
+{% endblock %}

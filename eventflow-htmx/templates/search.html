@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% partialdef content inline %}
+<main class="container py-5">
+  <h1 style="font-size: 28px; font-weight: 800; margin-bottom: 24px;">
+    🔍 Busca de Eventos
+  </h1>
+
+  <form method="GET" action="{% url 'search' %}" hx-get="{% url 'search' %}" hx-target="#page-content"
+    hx-push-url="true" class="search-filter-container" style="margin: 0 0 40px 0; max-width: 100%;">
+    <div class="search-input-wrapper">
+      <input type="text" name="q" placeholder="Digite o título ou palavras-chave..." value="{{ q|default:'' }}"
+        class="search-input" />
+    </div>
+    <select name="category" class="filter-select">
+      <option value="">Todas as Categorias</option>
+      {% for key, label in categories.items %}
+      <option value="{{ key }}" {% if category == key %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit" class="btn btn-primary">
+      Buscar
+    </button>
+  </form>
+
+  {% if total_count > 0 %}
+  <p class="text-muted" style="margin-bottom: 24px;">
+    Encontramos <strong>{{ total_count }}</strong> evento(s) correspondente(s).
+  </p>
+  {% endif %}
+
+  {% if events %}
+  <div id="search-results-grid" class="event-grid">
+    {% partialdef events_page inline %}
+    {% for event in events %}
+    {% include "c/event_card.html" with event=event %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+    <div hx-get="{% url 'search' %}?q={{ q }}&category={{ category }}&page={{ page_obj.next_page_number }}"
+      hx-trigger="intersect rootMargin:400px" hx-swap="outerHTML" hx-target="this"
+      style="grid-column: 1 / -1; height: 40px; margin-top: 20px; display: flex; justify-content: center; align-items: center;">
+      <span class="text-muted" style="font-size: 14px; font-weight: 600;">
+        Carregando mais eventos...
+      </span>
+    </div>
+    {% endif %}
+    {% endpartialdef %}
+  </div>
+  {% else %}
+  <div class="empty-state"
+    style="text-align: center; padding: 48px 24px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface);">
+    <span class="empty-state-icon" style="font-size: 48px; display: block; margin-bottom: 16px;">🔍</span>
+    <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">Nenhum evento encontrado</h3>
+    <p class="text-muted" style="font-size: 14px;">Tente buscar por outros termos ou alterar o filtro de categoria.</p>
+  </div>
+  {% endif %}
+  </div>
+</main>
+{% endpartialdef %}
+{% endblock %}

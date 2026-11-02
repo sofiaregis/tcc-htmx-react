@@ -1,0 +1,16 @@
+# syntax=docker/dockerfile:1.5
+# Dockerfile de produção para o EventFlow React Backend (Django REST + Gunicorn).
+# O código-fonte vem do contexto nomeado `source` = ../git/eventflow-react/backend.
+FROM python:3.12-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+COPY --from=source . .
+
+# Gunicorn (WSGI de produção). Arquivos estáticos e mídias são servidos diretamente pelo Nginx.
+RUN pip install --no-cache-dir -r requirements.txt gunicorn
+
+EXPOSE 8000

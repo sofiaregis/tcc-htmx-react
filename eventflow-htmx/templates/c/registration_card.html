@@ -1,0 +1,74 @@
+{% partialdef card inline %}
+<div class="sidebar-card" id="registration-card">
+  <h3 class="sidebar-card-title">Participação</h3>
+  
+  <div style="margin-bottom: 16px;">
+    <div class="text-muted" style="font-size: 13px; font-weight: 600; text-transform: uppercase;">
+      Inscritos no momento
+    </div>
+    <div style="font-size: 28px; font-weight: 800; color: var(--primary);">
+      {{ registrations_count }}
+    </div>
+  </div>
+
+  {% if event.is_past %}
+    <button class="btn btn-disabled" style="width: 100%;" disabled>
+      Evento Encerrado
+    </button>
+  {% elif is_organizer %}
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div class="alert alert-success" style="padding: 10px; font-size: 13px; margin-bottom: 0;">
+        Você é o organizador deste evento.
+      </div>
+      <a href="{% url 'event-edit' event.id %}" class="btn btn-outline" style="justify-content: center; display: flex; align-items: center; gap: 8px;">
+        ✏️ Editar Evento
+      </a>
+      <a href="{% url 'event-registrations' event.id %}" class="btn btn-secondary" style="justify-content: center; display: flex; align-items: center; gap: 8px;">
+        👥 Ver Lista de Inscritos
+      </a>
+      <form action="{% url 'event-delete' event.id %}" method="POST" onsubmit="return confirm('⚠️ ATENÇÃO: Tem certeza que deseja excluir permanentemente este evento?');">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger" style="width: 100%;">
+          🗑️ Excluir Evento
+        </button>
+      </form>
+    </div>
+  {% elif not request.user.is_authenticated %}
+    <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-primary" style="width: 100%; display: flex; justify-content: center; align-items: center; text-decoration: none;">
+      Garantir Inscrição
+    </a>
+  {% elif is_registered %}
+    <div>
+      <div class="alert alert-success" style="padding: 10px; font-size: 13px; margin-bottom: 12px;">
+        ✓ Você está inscrito!
+      </div>
+      <button 
+        hx-delete="{% url 'event-register' event.id %}" 
+        hx-target="#registration-card" 
+        hx-swap="outerHTML"
+        hx-confirm="Deseja realmente cancelar sua inscrição neste evento?"
+        class="btn btn-outline" 
+        style="width: 100%; color: var(--danger); border-color: var(--danger); display: flex; justify-content: center; align-items: center;"
+      >
+        Cancelar Inscrição
+      </button>
+    </div>
+  {% else %}
+    <button 
+      hx-post="{% url 'event-register' event.id %}" 
+      hx-target="#registration-card" 
+      hx-swap="outerHTML"
+      class="btn btn-primary" 
+      style="width: 100%; display: flex; justify-content: center; align-items: center;"
+    >
+      Garantir Inscrição
+    </button>
+  {% endif %}
+</div>
+{% endpartialdef %}
+
+{% partialdef card_oob %}
+<div id="registration-card" hx-swap-oob="outerHTML">
+  {% partial card %}
+</div>
+{% endpartialdef %}

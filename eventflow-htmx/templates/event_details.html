@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+{% partialdef content inline %}
+<main class="container py-5">
+  
+  <div style="margin-bottom: 20px;">
+    <a href="{% url 'home' %}" class="btn btn-sm btn-outline" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+      ← Voltar para todos os eventos
+    </a>
+  </div>
+
+  <div class="event-details-layout">
+    <!-- Main Info -->
+    <div class="event-details-main">
+      <img 
+        src="{% if event.image %}{{ event.image.url }}{% else %}https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=1000&auto=format&fit=crop&q=80{% endif %}" 
+        alt="{{ event.title }}" 
+        class="event-details-image" 
+      />
+      
+      <div class="event-details-body">
+        <span class="badge badge-primary" style="margin-bottom: 12px;">
+          {{ event.get_category_display }}
+        </span>
+        
+        <h1 class="event-details-title">{{ event.title }}</h1>
+        
+        <div class="text-muted" style="font-size: 14px; margin-bottom: 24px;">
+          Organizado por: <strong>@{{ event.organizer.username }}</strong>
+        </div>
+        
+        <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
+          Sobre o Evento
+        </h3>
+        
+        <p class="event-description" style="white-space: pre-wrap;">{{ event.description }}</p>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="event-details-sidebar">
+      <!-- Tickets / Registration Action -->
+      {% include "c/registration_card.html" %}
+
+      <!-- Event Info Details -->
+      <div class="sidebar-card">
+        <h3 class="sidebar-card-title">Detalhes</h3>
+        
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div>
+            <div style="font-weight: 600; font-size: 14px;">📅 Data do Evento</div>
+            <div class="text-muted" style="font-size: 14px;">
+              {{ event.date|date:"l, d \d\e F \d\e Y" }}
+            </div>
+          </div>
+          <div>
+            <div style="font-weight: 600; font-size: 14px;">⏰ Horário</div>
+            <div class="text-muted" style="font-size: 14px;">
+              {{ event.time|time:"H:i" }}h
+            </div>
+          </div>
+          <div>
+            <div style="font-weight: 600; font-size: 14px;">📍 Local</div>
+            <div class="text-muted" style="font-size: 14px;">
+              {{ event.location }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endpartialdef %}
+{% endblock %}

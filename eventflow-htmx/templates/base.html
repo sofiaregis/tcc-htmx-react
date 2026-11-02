@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EventFlow</title>
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  <!-- HTMX 2.0.4 (Servido estaticamente pelo Nginx / Django staticfiles) -->
+  <script src="{% static 'js/htmx.min.js' %}"></script>
+</head>
+
+<body hx-headers='{"x-csrftoken": "{{ csrf_token }}"}' hx-boost="true" hx-target="#page-content"
+  hx-swap="innerHTML show:window:top">
+
+  {% include "navbar.html" %}
+
+  <div id="messages">
+    {% include "c/_messages.html" %}
+  </div>
+
+  <main id="page-content">
+    {% block content %}
+    {% endblock %}
+  </main>
+
+  <!-- Custom Carousel JavaScript -->
+  <script src="{% static 'js/carousel.js' %}"></script>
+</body>
+
+</html>

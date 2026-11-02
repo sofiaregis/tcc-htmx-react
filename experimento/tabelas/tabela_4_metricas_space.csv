@@ -1,0 +1,11 @@
+﻿Metrica_SPACE,React_SPA,HTMX_HDA,Diferenca_Impacto
+Linhas de Código Efetivas (CLOC Total),3715 linhas,2789 linhas,-24.9% de código no HTMX
+CLOC Camada de Front-end,2719 linhas (JSX/CSS/JS),1750 linhas (HTML/CSS/JS),-35.6% de código no front-end
+CLOC Exclusivo de Lógica Front-end,1989 linhas (JSX + JS),1020 linhas (HTML + JS),-48.7% de lógica de apresentação
+CLOC Camada de Back-end,996 linhas (Python/DRF),1039 linhas (Python MVT),+4.3% (Templates/Views MVT)
+Arquivos de Código-Fonte (Total),49 arquivos,42 arquivos,-14.3% de arquivos no HTMX
+Arquivos de Front-end,26 arquivos (src),19 arquivos (templates/static),-26.9% de arquivos de tela
+Arquivos de Back-end,23 arquivos,23 arquivos,Estrutura Django equivalente
+Dependências Externas (Pacotes),20 pacotes (7 pip + 4 npm prod + 9 npm dev),8 pacotes (7 pip + 1 JS static htmx.min.js),-60.0% de dependências externas
+Camadas de Modificação,3 camadas (Model -> Serializer -> Component),2 camadas (Model -> Template),-33.3% no caminho de modificação
+Tamanho dos Artefatos de Build,"113,57 KB (Vite Gzip)",0 KB (Sem build step no front-end),Zero tempo de compilação/transpilação

@@ -1,0 +1,7 @@
+# Dockerfile de producao para o EventFlow HTMX Frontend (servidor Nginx).
+FROM nginx:alpine
+
+# Copiar configuracao customizada do Nginx
+COPY deploy/nginx-htmx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 8080

@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% partialdef content inline %}
+<header class="hero">
+  <div class="container">
+    <h1>Descubra Eventos Incríveis</h1>
+    <p>Explore, participe e organize conferências, workshops e encontros locais com facilidade e segurança.</p>
+  </div>
+</header>
+
+<div class="container">
+  <form action="{% url 'search' %}" method="GET" class="search-filter-container">
+    <div class="search-input-wrapper">
+      <input
+        type="text"
+        name="q"
+        placeholder="Pesquise por nome, palavras-chave..."
+        class="search-input"
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">
+      Buscar
+    </button>
+  </form>
+</div>
+
+<main class="container py-5" style="padding-top: 0;">
+  
+  <!-- 1. Carrossel: Eventos mais Inscritos deste Mês -->
+  {% if highlights %}
+    <section class="mb-4" style="margin-bottom: 56px;">
+      <div class="section-header">
+        <h2 class="section-title">🔥 Mais Inscritos do Mês</h2>
+        <a href="{% url 'highlighted-events' %}" class="view-all-link">
+          Ver todos →
+        </a>
+      </div>
+      
+      <div class="carousel-wrapper">
+        <button type="button" class="carousel-arrow left" aria-label="Anterior">‹</button>
+        <button type="button" class="carousel-arrow right" aria-label="Próximo">›</button>
+        <div class="carousel-container">
+          {% for event in highlights %}
+            <div class="carousel-item-wrapper">
+              {% include "c/event_card.html" with event=event %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <!-- 2. Carrossel: Explore nossas Categorias -->
+  <section class="mb-4" style="margin-bottom: 56px;">
+    <div class="section-header">
+      <h2 class="section-title">Explore Categorias</h2>
+    </div>
+    
+    <div class="carousel-wrapper">
+      <button type="button" class="carousel-arrow left" aria-label="Anterior">‹</button>
+      <button type="button" class="carousel-arrow right" aria-label="Próximo">›</button>
+      <div class="carousel-container">
+        <a href="{% url 'search' %}?category=tech" class="category-carousel-card">
+          <span class="category-icon">💻</span>
+          <span>Tecnologia</span>
+        </a>
+        <a href="{% url 'search' %}?category=business" class="category-carousel-card">
+          <span class="category-icon">📈</span>
+          <span>Negócios</span>
+        </a>
+        <a href="{% url 'search' %}?category=art" class="category-carousel-card">
+          <span class="category-icon">🎨</span>
+          <span>Artes</span>
+        </a>
+        <a href="{% url 'search' %}?category=sports" class="category-carousel-card">
+          <span class="category-icon">⚽</span>
+          <span>Esportes</span>
+        </a>
+        <a href="{% url 'search' %}?category=music" class="category-carousel-card">
+          <span class="category-icon">🎵</span>
+          <span>Música</span>
+        </a>
+        <a href="{% url 'search' %}?category=education" class="category-carousel-card">
+          <span class="category-icon">🎓</span>
+          <span>Educação</span>
+        </a>
+        <a href="{% url 'search' %}?category=health" class="category-carousel-card">
+          <span class="category-icon">🧘</span>
+          <span>Saúde</span>
+        </a>
+        <a href="{% url 'search' %}?category=food" class="category-carousel-card">
+          <span class="category-icon">🍳</span>
+          <span>Culinária</span>
+        </a>
+        <a href="{% url 'search' %}?category=environment" class="category-carousel-card">
+          <span class="category-icon">🌱</span>
+          <span>Meio Ambiente</span>
+        </a>
+        <a href="{% url 'search' %}?category=photography" class="category-carousel-card">
+          <span class="category-icon">📷</span>
+          <span>Fotografia</span>
+        </a>
+        <a href="{% url 'search' %}?category=other" class="category-carousel-card">
+          <span class="category-icon">✨</span>
+          <span>Outros</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Carrossel: O que fazer Hoje -->
+  {% if today_events %}
+    <section class="mb-4" style="margin-bottom: 56px;">
+      <div class="section-header">
+        <h2 class="section-title">📅 Acontecendo Hoje</h2>
+        <a href="{% url 'today-events' %}" class="view-all-link">
+          Ver todos →
+        </a>
+      </div>
+      
+      <div class="carousel-wrapper">
+        <button type="button" class="carousel-arrow left" aria-label="Anterior">‹</button>
+        <button type="button" class="carousel-arrow right" aria-label="Próximo">›</button>
+        <div class="carousel-container">
+          {% for event in today_events %}
+            <div class="carousel-item-wrapper">
+              {% include "c/event_card.html" with event=event %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <!-- CTA Final -->
+  <section style="text-align: center; padding: 48px 24px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); margin-top: 40px;">
+    <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">
+      Quer explorar mais opções?
+    </h3>
+    <p class="text-muted" style="margin-bottom: 20px; font-size: 15px;">
+      Acesse a nossa listagem completa para visualizar todos os eventos cadastrados na plataforma.
+    </p>
+    <a href="{% url 'search' %}" class="btn btn-secondary">
+      🔍 Ver Todos os Eventos
+    </a>
+  </section>
+  
+</main>
+{% endpartialdef %}
+{% endblock %}

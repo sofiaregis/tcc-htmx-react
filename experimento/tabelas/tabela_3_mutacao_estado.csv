@@ -1,0 +1,37 @@
+﻿Condicao_Rede,Tipo_Operacao,Metrica,React_Media,React_DesvioPadrao,React_Mediana,React_IQR,React_Formatado,HTMX_Media,HTMX_DesvioPadrao,HTMX_Mediana,HTMX_IQR,HTMX_Formatado,Diferenca_Media_ms,IC_95_Inferior,IC_95_Superior,IC_95_Formatado,Variacao_HTMX_vs_React,Estatistica_t,p_valor,Significativo_alpha_005,Relevancia_Pratica_50ms
+NoThrottling,Geral (20 Mutações),MutationLatencyMs,38.74,2.08,39.07,2.75,38.74 ± 2.08 ms,42.68,3.08,43.54,1.88,42.68 ± 3.08 ms,-3.94,-4.67,-3.21,"[-4.67, -3.21]",+10.2%,-10.6038,< 0.0001,Sim,Equivalente na Prática (±50 ms)
+NoThrottling,Geral (20 Mutações),MutationPayloadKB,0.11,0.0,0.11,0.01,0.11 ± 0.00 KB,0.4,0.06,0.4,0.05,0.40 ± 0.06 KB,,,,,+270.7%,-48.1084,< 0.0001,Sim,
+NoThrottling,Geral (20 Mutações),JSHeapMB,3.16,0.0,3.16,0.0,3.16 ± 0.00 MB,1.81,0.0,1.82,0.0,1.81 ± 0.00 MB,,,,,-42.6%,3574.8258,< 0.0001,Sim,
+NoThrottling,Geral (20 Mutações),DOMNodeCount,55.0,0.0,55.0,0.0,55.00 ± 0.00,57.0,0.0,57.0,0.0,57.00 ± 0.00,,,,,+3.6%,∞,< 0.0001,Sim,
+NoThrottling,Inscrição (POST),MutationLatencyMs,35.93,3.9,36.71,4.53,35.93 ± 3.90 ms,41.58,3.74,42.71,3.1,41.58 ± 3.74 ms,-5.65,-6.72,-4.59,"[-6.72, -4.59]",+15.7%,-10.4669,< 0.0001,Sim,Equivalente na Prática (±50 ms)
+NoThrottling,Inscrição (POST),MutationPayloadKB,0.16,0.01,0.17,0.02,0.16 ± 0.01 KB,0.42,0.09,0.42,0.05,0.42 ± 0.09 KB,,,,,+165.8%,-29.9071,< 0.0001,Sim,
+NoThrottling,Inscrição (POST),JSHeapMB,3.16,0.0,3.16,0.0,3.16 ± 0.00 MB,1.81,0.0,1.81,0.01,1.81 ± 0.00 MB,,,,,-42.7%,3073.7719,< 0.0001,Sim,
+NoThrottling,Inscrição (POST),DOMNodeCount,57.0,0.0,57.0,0.0,57.00 ± 0.00,59.0,0.0,59.0,0.0,59.00 ± 0.00,,,,,+3.5%,∞,< 0.0001,Sim,
+NoThrottling,Cancelamento (DELETE),MutationLatencyMs,41.55,1.44,41.71,1.48,41.55 ± 1.44 ms,43.77,2.86,44.44,1.04,43.77 ± 2.86 ms,-2.23,-2.86,-1.59,"[-2.86, -1.59]",+5.4%,-6.9580,< 0.0001,Sim,Equivalente na Prática (±50 ms)
+NoThrottling,Cancelamento (DELETE),MutationPayloadKB,0.05,0.0,0.06,0.0,0.05 ± 0.00 KB,0.37,0.07,0.39,0.0,0.37 ± 0.07 KB,,,,,+577.4%,-47.3385,< 0.0001,Sim,
+NoThrottling,Cancelamento (DELETE),JSHeapMB,3.16,0.0,3.16,0.0,3.16 ± 0.00 MB,1.81,0.0,1.82,0.0,1.81 ± 0.00 MB,,,,,-42.6%,3574.8258,< 0.0001,Sim,
+NoThrottling,Cancelamento (DELETE),DOMNodeCount,55.0,0.0,55.0,0.0,55.00 ± 0.00,57.0,0.0,57.0,0.0,57.00 ± 0.00,,,,,+3.6%,∞,< 0.0001,Sim,
+Fast4G,Geral (20 Mutações),MutationLatencyMs,77.26,2.13,77.4,2.46,77.26 ± 2.13 ms,62.1,2.18,61.96,3.09,62.10 ± 2.18 ms,15.16,14.56,15.76,"[14.56, 15.76]",-19.6%,49.7949,< 0.0001,Sim,Equivalente na Prática (±50 ms)
+Fast4G,Geral (20 Mutações),MutationPayloadKB,0.1,0.0,0.1,0.01,0.10 ± 0.00 KB,0.3,0.05,0.31,0.07,0.30 ± 0.05 KB,,,,,+191.9%,-43.1663,< 0.0001,Sim,
+Fast4G,Geral (20 Mutações),JSHeapMB,3.16,0.0,3.16,0.0,3.16 ± 0.00 MB,1.81,0.0,1.81,0.0,1.81 ± 0.00 MB,,,,,-42.8%,5025.4667,< 0.0001,Sim,
+Fast4G,Geral (20 Mutações),DOMNodeCount,55.0,0.0,55.0,0.0,55.00 ± 0.00,57.0,0.0,57.0,0.0,57.00 ± 0.00,,,,,+3.6%,∞,< 0.0001,Sim,
+Fast4G,Inscrição (POST),MutationLatencyMs,72.56,2.46,72.41,3.0,72.56 ± 2.46 ms,62.28,2.6,61.58,3.47,62.28 ± 2.60 ms,10.28,9.57,10.99,"[9.57, 10.99]",-14.2%,28.7243,< 0.0001,Sim,Equivalente na Prática (±50 ms)
+Fast4G,Inscrição (POST),MutationPayloadKB,0.16,0.0,0.17,0.0,0.16 ± 0.00 KB,0.4,0.07,0.42,0.1,0.40 ± 0.07 KB,,,,,+147.0%,-34.7485,< 0.0001,Sim,
+Fast4G,Inscrição (POST),JSHeapMB,3.16,0.0,3.16,0.0,3.16 ± 0.00 MB,1.8,0.0,1.8,0.0,1.80 ± 0.00 MB,,,,,-42.9%,∞,< 0.0001,Sim,
+Fast4G,Inscrição (POST),DOMNodeCount,57.0,0.0,57.0,0.0,57.00 ± 0.00,59.0,0.0,59.0,0.0,59.00 ± 0.00,,,,,+3.5%,∞,< 0.0001,Sim,
+Fast4G,Cancelamento (DELETE),MutationLatencyMs,81.96,3.14,82.58,3.79,81.96 ± 3.14 ms,61.92,2.68,61.59,3.6,61.92 ± 2.68 ms,20.04,19.23,20.85,"[19.23, 20.85]",-24.5%,48.5768,< 0.0001,Sim,Equivalente na Prática (±50 ms)
+Fast4G,Cancelamento (DELETE),MutationPayloadKB,0.04,0.01,0.04,0.01,0.04 ± 0.01 KB,0.2,0.06,0.2,0.08,0.20 ± 0.06 KB,,,,,+359.5%,-27.1042,< 0.0001,Sim,
+Fast4G,Cancelamento (DELETE),JSHeapMB,3.16,0.0,3.16,0.0,3.16 ± 0.00 MB,1.81,0.0,1.81,0.0,1.81 ± 0.00 MB,,,,,-42.8%,5025.4667,< 0.0001,Sim,
+Fast4G,Cancelamento (DELETE),DOMNodeCount,55.0,0.0,55.0,0.0,55.00 ± 0.00,57.0,0.0,57.0,0.0,57.00 ± 0.00,,,,,+3.6%,∞,< 0.0001,Sim,
+Slow4G,Geral (20 Mutações),MutationLatencyMs,135.01,0.57,135.0,0.65,135.01 ± 0.57 ms,133.28,1.67,133.26,2.46,133.28 ± 1.67 ms,1.74,1.39,2.09,"[1.39, 2.09]",-1.3%,9.8661,< 0.0001,Sim,Equivalente na Prática (±50 ms)
+Slow4G,Geral (20 Mutações),MutationPayloadKB,0.11,0.0,0.11,0.0,0.11 ± 0.00 KB,0.45,0.01,0.46,0.0,0.45 ± 0.01 KB,,,,,+312.8%,-407.4660,< 0.0001,Sim,
+Slow4G,Geral (20 Mutações),JSHeapMB,3.16,0.0,3.16,0.0,3.16 ± 0.00 MB,1.81,0.0,1.81,0.0,1.81 ± 0.00 MB,,,,,-42.8%,7325.4100,< 0.0001,Sim,
+Slow4G,Geral (20 Mutações),DOMNodeCount,55.0,0.0,55.0,0.0,55.00 ± 0.00,57.0,0.0,57.0,0.0,57.00 ± 0.00,,,,,+3.6%,∞,< 0.0001,Sim,
+Slow4G,Inscrição (POST),MutationLatencyMs,136.76,0.99,136.64,1.2,136.76 ± 0.99 ms,132.92,2.08,132.89,2.71,132.92 ± 2.08 ms,3.83,3.38,4.29,"[3.38, 4.29]",-2.8%,16.6357,< 0.0001,Sim,Equivalente na Prática (±50 ms)
+Slow4G,Inscrição (POST),MutationPayloadKB,0.16,0.0,0.17,0.0,0.16 ± 0.00 KB,0.52,0.01,0.52,0.0,0.52 ± 0.01 KB,,,,,+217.2%,-601.5104,< 0.0001,Sim,
+Slow4G,Inscrição (POST),JSHeapMB,3.16,0.0,3.16,0.0,3.16 ± 0.00 MB,1.8,0.0,1.8,0.0,1.80 ± 0.00 MB,,,,,-42.9%,6993.5200,< 0.0001,Sim,
+Slow4G,Inscrição (POST),DOMNodeCount,57.0,0.0,57.0,0.0,57.00 ± 0.00,59.0,0.0,59.0,0.0,59.00 ± 0.00,,,,,+3.5%,∞,< 0.0001,Sim,
+Slow4G,Cancelamento (DELETE),MutationLatencyMs,133.27,0.88,133.24,0.95,133.27 ± 0.88 ms,133.63,2.32,134.05,3.11,133.63 ± 2.32 ms,-0.36,-0.85,0.13,"[-0.85, 0.13]",+0.3%,-1.4469,0.1504,Não,Equivalente na Prática (±50 ms)
+Slow4G,Cancelamento (DELETE),MutationPayloadKB,0.06,0.0,0.06,0.0,0.06 ± 0.00 KB,0.39,0.01,0.39,0.0,0.39 ± 0.01 KB,,,,,+596.1%,-226.4400,< 0.0001,Sim,
+Slow4G,Cancelamento (DELETE),JSHeapMB,3.16,0.0,3.16,0.0,3.16 ± 0.00 MB,1.81,0.0,1.81,0.0,1.81 ± 0.00 MB,,,,,-42.8%,7325.4100,< 0.0001,Sim,
+Slow4G,Cancelamento (DELETE),DOMNodeCount,55.0,0.0,55.0,0.0,55.00 ± 0.00,57.0,0.0,57.0,0.0,57.00 ± 0.00,,,,,+3.6%,∞,< 0.0001,Sim,

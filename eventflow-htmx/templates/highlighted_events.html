@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% partialdef content inline %}
+<main class="container py-5">
+  <h1 style="font-size: 28px; font-weight: 800; margin-bottom: 8px;">
+    🔥 Eventos em Destaque do Mês
+  </h1>
+  <p class="text-muted" style="margin-bottom: 32px;">
+    Confira a lista dos eventos mais populares e com maior adesão dos participantes.
+  </p>
+
+  <div id="highlighted-results">
+    {% if events %}
+      <div class="event-grid">
+        {% for event in events %}
+          {% include "c/event_card.html" with event=event %}
+        {% endfor %}
+      </div>
+
+      {% if is_paginated %}
+        <div class="pagination" style="display: flex; justify-content: center; align-items: center; gap: 16px; margin-top: 40px;">
+          {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}"
+               hx-get="?page={{ page_obj.previous_page_number }}"
+               hx-target="#page-content"
+               hx-push-url="true"
+               class="btn btn-outline btn-sm">
+              ‹ Anterior
+            </a>
+          {% endif %}
+
+          <span class="pagination-info" style="font-size: 14px; font-weight: 600; color: var(--text-muted);">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+          </span>
+
+          {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}"
+               hx-get="?page={{ page_obj.next_page_number }}"
+               hx-target="#page-content"
+               hx-push-url="true"
+               class="btn btn-outline btn-sm">
+              Próxima ›
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% else %}
+      <div class="empty-state" style="text-align: center; padding: 48px 24px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface);">
+        <span class="empty-state-icon" style="font-size: 48px; display: block; margin-bottom: 16px;">🔥</span>
+        <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 8px;">Nenhum evento em destaque no momento</h3>
+        <p class="text-muted" style="font-size: 14px;">Volte mais tarde para conferir as novidades.</p>
+      </div>
+    {% endif %}
+  </div>
+</main>
+{% endpartialdef %}
+{% endblock %}

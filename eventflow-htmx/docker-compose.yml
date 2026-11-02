@@ -1,0 +1,17 @@
+services:
+  htmx:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: eventflow-htmx
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - PYTHONUNBUFFERED=1
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/ || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 5s

@@ -1,0 +1,13 @@
+# syntax=docker/dockerfile:1.5
+# Dockerfile de produção para o EventFlow React Frontend (build + nginx servindo o dist).
+# O código-fonte vem do contexto nomeado `source` = ../git/eventflow-react/frontend.
+FROM node:20-alpine AS build
+WORKDIR /app
+COPY --from=source package*.json ./
+RUN npm install
+COPY --from=source . .
+RUN npm run build
+
+FROM nginx:alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 5173

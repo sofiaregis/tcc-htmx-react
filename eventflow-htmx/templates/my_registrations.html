@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% partialdef content inline %}
+<main class="container py-5">
+  <h1 class="mb-4" style="font-size: 28px; font-weight: 800;">🎟️ Minhas Inscrições</h1>
+  <p class="text-muted" style="margin-bottom: 32px; margin-top: -16px;">
+    Aqui você acompanha todos os eventos em que garantiu sua vaga.
+  </p>
+
+  {% if events %}
+    <div class="event-grid">
+      {% for event in events %}
+        {% include "c/event_card.html" with event=event %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="text-center" style="padding: 60px 0; border: 1px dashed var(--border); border-radius: var(--radius-lg); background: var(--surface);">
+      <p class="text-muted" style="font-size: 16px; margin-bottom: 16px;">
+        Você ainda não se inscreveu em nenhum evento.
+      </p>
+      <a href="{% url 'home' %}" class="btn btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">
+        Explorar Eventos
+      </a>
+    </div>
+  {% endif %}
+</main>
+{% endpartialdef %}
+{% endblock %}

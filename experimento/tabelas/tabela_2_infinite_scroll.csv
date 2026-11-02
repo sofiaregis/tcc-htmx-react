@@ -1,0 +1,19 @@
+﻿Condicao_Rede,Metrica,React_Media,React_DesvioPadrao,React_Mediana,React_IQR,React_Formatado,HTMX_Media,HTMX_DesvioPadrao,HTMX_Mediana,HTMX_IQR,HTMX_Formatado,Diferenca_Media_ms,IC_95_Formatado,Estatistica_t,p_valor,Significativo_alpha_005,Relevancia_Pratica_50ms
+NoThrottling,Latência Média por Rodada (N=100),76.73,0.79,76.63,1.11,76.73 ± 0.79 ms,42.62,1.05,42.55,1.04,42.62 ± 1.05 ms,34.11,"[33.85, 34.37]",259.0766,< 0.0001,Sim,Equivalente na Prática (±50 ms)
+NoThrottling,Taxa Degradação Linear (β ms/lote),1.6491,0.0556,1.6446,0.06,1.6491 ± 0.0556 ms/lote (R²=0.89),-0.0121,0.0658,-0.0018,0.0815,-0.0121 ± 0.0658 ms/lote (R²=0.02),1.6612,"[1.64, 1.68]",192.7525,< 0.0001,Sim,"Efeito 49 lotes: React=80.8ms (>50ms) vs HTMX=-0.6ms (<2ms, nulo na prática)"
+NoThrottling,Δ JS Heap Final,6.99,0.01,6.99,0.01,6.99 ± 0.01 MB,0.92,0.03,0.91,0.0,0.92 ± 0.03 MB,6.07,"[6.07, 6.08]",2118.6607,< 0.0001,Sim,Redução de 86.8% no heap
+NoThrottling,JS Heap Total Final,9.52,0.01,9.52,0.01,9.52 ± 0.01 MB,2.18,0.03,2.17,0.0,2.18 ± 0.03 MB,7.34,"[7.34, 7.35]",2567.3899,< 0.0001,Sim,Economia de 77.1% de RAM
+NoThrottling,Nós do DOM Final,5751.0,0.0,5751.0,0.0,5751 ± 0.0,5754.0,0.0,5754.0,0.0,5754 ± 0.0,-3.0,"[-3, -3]",∞,< 0.0001,Sim,Paridade estrutural estrita
+NoThrottling,BatchPayloadKB (Média Geral),2.72,0.12,2.71,0.12,2.72 ± 0.12 KB,1.71,0.09,1.71,0.08,1.71 ± 0.09 KB,1.01,"[1.01, 1.02]",492.3505,< 0.0001,Sim,HTMX economiza 37.3% de tráfego por lote
+Fast4G,Latência Média por Rodada (N=100),83.89,0.57,83.82,0.66,83.89 ± 0.57 ms,59.76,0.61,59.67,0.81,59.76 ± 0.61 ms,24.14,"[23.97, 24.30]",288.6376,< 0.0001,Sim,Equivalente na Prática (±50 ms)
+Fast4G,Taxa Degradação Linear (β ms/lote),1.0627,0.0416,1.0666,0.0433,1.0627 ± 0.0416 ms/lote (R²=0.90),-0.0066,0.0394,-0.0021,0.0526,-0.0066 ± 0.0394 ms/lote (R²=0.01),1.0694,"[1.06, 1.08]",186.7795,< 0.0001,Sim,"Efeito 49 lotes: React=52.1ms (>50ms) vs HTMX=-0.3ms (<2ms, nulo na prática)"
+Fast4G,Δ JS Heap Final,6.98,0.01,6.98,0.01,6.98 ± 0.01 MB,0.97,0.03,0.98,0.0,0.97 ± 0.03 MB,6.01,"[6.00, 6.01]",2185.5989,< 0.0001,Sim,Redução de 86.1% no heap
+Fast4G,JS Heap Total Final,9.53,0.01,9.53,0.01,9.53 ± 0.01 MB,2.23,0.03,2.24,0.0,2.23 ± 0.03 MB,7.3,"[7.29, 7.30]",2653.0188,< 0.0001,Sim,Economia de 76.6% de RAM
+Fast4G,Nós do DOM Final,5751.0,0.0,5751.0,0.0,5751 ± 0.0,5754.0,0.0,5754.0,0.0,5754 ± 0.0,-3.0,"[-3, -3]",∞,< 0.0001,Sim,Paridade estrutural estrita
+Fast4G,BatchPayloadKB (Média Geral),2.72,0.13,2.71,0.12,2.72 ± 0.13 KB,1.71,0.08,1.71,0.08,1.71 ± 0.08 KB,1.01,"[1.01, 1.02]",457.2191,< 0.0001,Sim,HTMX economiza 37.2% de tráfego por lote
+Slow4G,Latência Média por Rodada (N=100),173.24,0.63,173.23,0.87,173.24 ± 0.63 ms,123.02,0.71,122.98,1.04,123.02 ± 0.71 ms,50.22,"[50.03, 50.41]",528.4882,< 0.0001,Sim,Diferença Relevante (> 50 ms)
+Slow4G,Taxa Degradação Linear (β ms/lote),1.804,0.0524,1.8034,0.0745,1.8040 ± 0.0524 ms/lote (R²=0.96),0.0381,0.0451,0.0354,0.0594,0.0381 ± 0.0451 ms/lote (R²=0.03),1.7659,"[1.75, 1.78]",255.4354,< 0.0001,Sim,"Efeito 49 lotes: React=88.4ms (>50ms) vs HTMX=1.9ms (<2ms, nulo na prática)"
+Slow4G,Δ JS Heap Final,6.98,0.01,6.98,0.01,6.98 ± 0.01 MB,0.96,0.01,0.96,0.01,0.96 ± 0.01 MB,6.02,"[6.02, 6.02]",6085.7193,< 0.0001,Sim,Redução de 86.2% no heap
+Slow4G,JS Heap Total Final,9.54,0.01,9.53,0.01,9.54 ± 0.01 MB,2.22,0.01,2.22,0.01,2.22 ± 0.01 MB,7.31,"[7.31, 7.31]",7391.7038,< 0.0001,Sim,Economia de 76.7% de RAM
+Slow4G,Nós do DOM Final,5751.0,0.0,5751.0,0.0,5751 ± 0.0,5754.0,0.0,5754.0,0.0,5754 ± 0.0,-3.0,"[-3, -3]",∞,< 0.0001,Sim,Paridade estrutural estrita
+Slow4G,BatchPayloadKB (Média Geral),2.72,0.1,2.71,0.12,2.72 ± 0.10 KB,1.71,0.06,1.71,0.08,1.71 ± 0.06 KB,1.01,"[1.01, 1.02]",589.7490,< 0.0001,Sim,HTMX economiza 37.2% de tráfego por lote

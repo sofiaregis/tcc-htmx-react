@@ -1,0 +1,7 @@
+asgiref==3.9.1
+Django==6.0.7
+django-htmx>=1.22.0
+faker>=20.0.0
+pillow==11.3.0
+sqlparse==0.5.3
+requests==2.34.2
