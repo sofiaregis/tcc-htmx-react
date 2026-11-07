@@ -197,3 +197,64 @@ def two_way_anova_table(df, metric, factor1="Tecnologia", factor2="PerfilRede"):
         {"Fonte": "Resíduos", "SS": ss_resid, "df": df_resid, "MS": ms_resid, "F": None, "p_valor": None, "eta_sq_partial": None},
     ]
     return pd.DataFrame(rows)
+
+
+def anova_diagnostics_row(df, metric, label, factor1="Tecnologia", factor2="PerfilRede"):
+    """Calcula diagnosticos de pressupostos (Levene, Shapiro-Wilk) e auditoria robusta HC3."""
+    import statsmodels.formula.api as smf
+    from statsmodels.stats.anova import anova_lm
+
+    sub = df.dropna(subset=[metric, factor1, factor2])
+    grouped = sub.groupby([factor1, factor2])[metric]
+    samples = [g.values for _, g in grouped]
+
+    # 1. Homocedasticidade (Levene centrado na mediana / Brown-Forsythe)
+    w_bf, p_bf = stats.levene(*samples, center="median")
+
+    # 2. Ajuste OLS e Normalidade dos Resíduos
+    formula = f"{metric} ~ C({factor1}) * C({factor2})"
+    model = smf.ols(formula, data=sub).fit()
+    w_sh, p_sh = stats.shapiro(model.resid)
+
+    # 3. ANOVA Clássica
+    a_classic = anova_lm(model, typ=2)
+    f_tec = a_classic.loc[f"C({factor1})", "F"]
+    f_rede = a_classic.loc[f"C({factor2})", "F"]
+    f_int = a_classic.loc[f"C({factor1}):C({factor2})", "F"]
+
+    # 4. Erros-padrão robustos HC3 (White-MacKinnon)
+    model_hc3 = smf.ols(formula, data=sub).fit(cov_type="HC3")
+    terms_tec = [t for t in model_hc3.params.index if f"C({factor1})" in t and ":" not in t]
+    w_tec = model_hc3.wald_test(terms_tec, scalar=True)
+    f_tec_hc3 = float(np.squeeze(w_tec.statistic))
+    p_tec_hc3 = float(np.squeeze(w_tec.pvalue))
+
+    terms_rede = [t for t in model_hc3.params.index if f"C({factor2})" in t and ":" not in t]
+    w_rede = model_hc3.wald_test(terms_rede, scalar=False)
+    f_rede_hc3 = float(np.squeeze(w_rede.statistic))
+    p_rede_hc3 = float(np.squeeze(w_rede.pvalue))
+
+    terms_int = [t for t in model_hc3.params.index if ":" in t]
+    w_int = model_hc3.wald_test(terms_int, scalar=False)
+    f_int_hc3 = float(np.squeeze(w_int.statistic))
+    p_int_hc3 = float(np.squeeze(w_int.pvalue))
+
+    return {
+        "Bateria_Cenario": label,
+        "Metrica": metric,
+        "Levene_W": round(w_bf, 4),
+        "Levene_p": "< 0.0001" if p_bf < 0.0001 else f"{p_bf:.4f}",
+        "Homocedasticidade": "Rejeitada (p < 0.05)" if p_bf < 0.05 else "Atendida (p >= 0.05)",
+        "Shapiro_W": round(w_sh, 4),
+        "Shapiro_p": "< 0.0001" if p_sh < 0.0001 else f"{p_sh:.4f}",
+        "Normalidade_Residuos": "Rejeitada (p < 0.05)" if p_sh < 0.05 else "Atendida (p >= 0.05)",
+        "F_Tecnologia_Classico": round(f_tec, 2),
+        "F_Tecnologia_HC3": round(f_tec_hc3, 2),
+        "p_Tecnologia_HC3": "< 0.0001" if p_tec_hc3 < 0.0001 else f"{p_tec_hc3:.4f}",
+        "F_Rede_Classico": round(f_rede, 2),
+        "F_Rede_HC3": round(f_rede_hc3, 2),
+        "p_Rede_HC3": "< 0.0001" if p_rede_hc3 < 0.0001 else f"{p_rede_hc3:.4f}",
+        "F_Interacao_Classico": round(f_int, 2),
+        "F_Interacao_HC3": round(f_int_hc3, 2),
+        "p_Interacao_HC3": "< 0.0001" if p_int_hc3 < 0.0001 else f"{p_int_hc3:.4f}",
+    }

@@ -32,6 +32,7 @@ TABELA_4 = TABELAS / "tabela_4_metricas_space.csv"
 TABELA_ANOVA_COLD_HOME = TABELAS / "tabela_anova_cold_start_home.csv"
 TABELA_ANOVA_SCROLL = TABELAS / "tabela_anova_infinite_scroll.csv"
 TABELA_ANOVA_MUTACAO = TABELAS / "tabela_anova_mutacao.csv"
+TABELA_DIAGNOSTICO_ANOVA = TABELAS / "tabela_diagnostico_anova.csv"
 
 PROFILES = ["NoThrottling", "Fast4G", "Slow4G"]
 PAGES = ["Home", "Search", "Details"]

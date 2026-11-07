@@ -151,3 +151,5 @@ cd experimento
   * `tabela_2_infinite_scroll.csv`: Tabela consolidada de degradacao do infinite scroll.
   * `tabela_3_mutacao_estado.csv`: Tabela consolidada de mutacao de estado.
   * `tabela_4_metricas_space.csv`: Tabela consolidada de metricas de engenharia do framework SPACE.
+  * `tabela_anova_*.csv`: Tabelas de modelos fatoriais de ANOVA de duas vias por bateria.
+  * `tabela_diagnostico_anova.csv`: Diagnostico de pressupostos (Levene, Shapiro-Wilk) e auditoria robusta HC3 (White-MacKinnon).

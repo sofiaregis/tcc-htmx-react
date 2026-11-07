@@ -12,7 +12,7 @@ import scipy.stats as stats
 from src import config
 from src.stats_utils import (
     describe, describe_robust, welch_test, welch_ci_and_diff,
-    pct_variation, fmt_t, fmt_p, two_way_anova_table
+    pct_variation, fmt_t, fmt_p, two_way_anova_table, anova_diagnostics_row
 )
 from report.space_metrics import compute_space_metrics
 
@@ -362,6 +362,39 @@ def tabela_anova():
             print(f"[OK] {config.TABELA_ANOVA_MUTACAO.name}")
 
 
+def tabela_diagnostico_anova():
+    """Gera matriz com testes de pressupostos (Levene, Shapiro-Wilk) e auditoria robusta HC3."""
+    rows = []
+
+    # 1. Bateria 1: Cold Start (Home, Search, Details)
+    if config.COLD_START_CSV.exists():
+        df_cold = pd.read_csv(config.COLD_START_CSV)
+        for pag in ["Home", "Search", "Details"]:
+            sub = df_cold[df_cold["Pagina"] == pag]
+            r = anova_diagnostics_row(sub, "LCP", f"Bateria 1 (Cold Start - {pag})")
+            rows.append(r)
+
+    # 2. Bateria 2: Infinite Scroll (nível de rodada N=100)
+    if config.SCROLL_CSV.exists():
+        df_scroll = pd.read_csv(config.SCROLL_CSV)
+        if "BatchLatencyMs" in df_scroll.columns and "BatchLoadTime" not in df_scroll.columns:
+            df_scroll["BatchLoadTime"] = df_scroll["BatchLatencyMs"]
+        scroll_round = df_scroll.groupby(["Tecnologia", "PerfilRede", "Rodada"])["BatchLoadTime"].mean().reset_index()
+        r = anova_diagnostics_row(scroll_round, "BatchLoadTime", "Bateria 2 (Infinite Scroll)")
+        rows.append(r)
+
+    # 3. Bateria 3: Mutação de Estado (nível de rodada N=100)
+    if config.MUTATION_CSV.exists():
+        df_mut = pd.read_csv(config.MUTATION_CSV)
+        mut_round = df_mut.groupby(["Tecnologia", "PerfilRede", "Rodada"])["MutationLatencyMs"].mean().reset_index()
+        r = anova_diagnostics_row(mut_round, "MutationLatencyMs", "Bateria 3 (Mutação de Estado)")
+        rows.append(r)
+
+    if rows:
+        pd.DataFrame(rows).to_csv(config.TABELA_DIAGNOSTICO_ANOVA, index=False, encoding="utf-8-sig")
+        print(f"[OK] {config.TABELA_DIAGNOSTICO_ANOVA.name}")
+
+
 def tabela_4():
     """Gera a Tabela 4 com métricas de engenharia de software do framework SPACE."""
     m = compute_space_metrics()
@@ -398,6 +431,7 @@ def generate_all():
     tabela_2()
     tabela_3()
     tabela_anova()
+    tabela_diagnostico_anova()
     tabela_4()
     print("\n>>> Todas as tabelas consolidadas geradas com sucesso!")
 

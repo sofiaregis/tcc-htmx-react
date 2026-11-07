@@ -1,0 +1,6 @@
+﻿Bateria_Cenario,Metrica,Levene_W,Levene_p,Homocedasticidade,Shapiro_W,Shapiro_p,Normalidade_Residuos,F_Tecnologia_Classico,F_Tecnologia_HC3,p_Tecnologia_HC3,F_Rede_Classico,F_Rede_HC3,p_Rede_HC3,F_Interacao_Classico,F_Interacao_HC3,p_Interacao_HC3
+Bateria 1 (Cold Start - Home),LCP,7.8641,< 0.0001,Rejeitada (p < 0.05),0.7934,< 0.0001,Rejeitada (p < 0.05),30131.0,5318.53,< 0.0001,38292.47,7493.72,< 0.0001,9590.87,25417.29,< 0.0001
+Bateria 1 (Cold Start - Search),LCP,11.0371,< 0.0001,Rejeitada (p < 0.05),0.6904,< 0.0001,Rejeitada (p < 0.05),3223.11,449.24,< 0.0001,6882.35,949.75,< 0.0001,1502.5,3267.56,< 0.0001
+Bateria 1 (Cold Start - Details),LCP,0.95,0.4480,Atendida (p >= 0.05),0.5448,< 0.0001,Rejeitada (p < 0.05),11701.77,2494.63,< 0.0001,16767.48,2197.89,< 0.0001,4500.21,7559.9,< 0.0001
+Bateria 2 (Infinite Scroll),BatchLoadTime,5.3991,< 0.0001,Rejeitada (p < 0.05),0.9311,< 0.0001,Rejeitada (p < 0.05),352703.74,82478.56,< 0.0001,827120.94,593247.61,< 0.0001,15577.52,42122.4,< 0.0001
+Bateria 3 (Mutação de Estado),MutationLatencyMs,10.6231,< 0.0001,Rejeitada (p < 0.05),0.8896,< 0.0001,Rejeitada (p < 0.05),641.31,2454.73,< 0.0001,104874.01,103119.65,< 0.0001,1102.51,1943.76,< 0.0001
